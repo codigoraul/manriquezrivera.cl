@@ -40,5 +40,5 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           local-dir: ./dist/
-          server-dir: public_html/abogados/
+          server-dir: ./
           dangerous-clean-slate: true
