@@ -1,5 +1,20 @@
 // Configuración de WordPress API
 const WP_URL = import.meta.env.PUBLIC_WP_URL || 'http://localhost:8888/manriquezrivera';
+const WP_MEDIA_URL = import.meta.env.PUBLIC_WP_MEDIA_URL?.replace(/\/$/, '');
+
+function resolveMediaUrl(url: string | undefined): string | undefined {
+  if (!url) return url;
+  if (!WP_MEDIA_URL) return url;
+  const normalizedMediaBase = WP_MEDIA_URL.replace(/\/$/, '');
+  const wpContentIndex = url.indexOf('/wp-content/');
+
+  if (wpContentIndex !== -1) {
+    return `${normalizedMediaBase}${url.substring(wpContentIndex)}`;
+  }
+
+  // Si WordPress cambia el path, al menos reemplazamos el hostname original
+  return url.replace(/^https?:\/\/[^/]+/, normalizedMediaBase);
+}
 
 export interface Service {
   id: number;
@@ -140,7 +155,10 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
 // Obtener imagen destacada
 export function getFeaturedImage(service: Service): string {
   if (service._embedded?.['wp:featuredmedia']?.[0]?.source_url) {
-    return service._embedded['wp:featuredmedia'][0].source_url;
+    return (
+      resolveMediaUrl(service._embedded['wp:featuredmedia'][0].source_url) ||
+      service._embedded['wp:featuredmedia'][0].source_url
+    );
   }
   // Usar BASE_URL si está disponible, sino usar ruta relativa
   const baseUrl = import.meta.env.BASE_URL || '';

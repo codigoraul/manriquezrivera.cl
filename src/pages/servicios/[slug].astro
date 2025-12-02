@@ -2,19 +2,23 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
-import { getServices, getFeaturedImage } from "../../lib/wordpress";
+import { getServices, getServiceBySlug, getFeaturedImage } from "../../lib/wordpress";
 
-// Generar rutas estáticas para todos los servicios
+export const prerender = false;
+
 export async function getStaticPaths() {
   const services = await getServices();
-  
   return services.map((service) => ({
-    params: { slug: service.slug },
-    props: { service },
+    params: { slug: service.slug }
   }));
 }
 
-const { service } = Astro.props;
+const { slug } = Astro.params;
+const service = await getServiceBySlug(slug ?? "");
+
+if (!service) {
+  throw new Error(`Servicio no encontrado: ${slug}`);
+}
 
 // Función para obtener título de forma segura
 function getTitle(service: any): string {
