@@ -17,7 +17,7 @@ const { slug } = Astro.params;
 const service = await getServiceBySlug(slug ?? "");
 
 if (!service) {
-  throw new Error(`Servicio no encontrado: ${slug}`);
+  return Astro.redirect('/404');
 }
 
 // Función para obtener título de forma segura
