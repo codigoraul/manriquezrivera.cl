@@ -36,6 +36,7 @@ jobs:
         run: npm run build
         env:
           PUBLIC_WP_URL: ${{ secrets.PUBLIC_WP_URL }}
+          PUBLIC_WP_MEDIA_URL: ${{ secrets.PUBLIC_WP_MEDIA_URL }}
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
