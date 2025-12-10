@@ -5,9 +5,9 @@ on:
   push:
     branches: [ main ]
   
-  # Se ejecuta cada 5 minutos automáticamente
+  # Se ejecuta cada hora automáticamente
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '0 * * * *'
   
   # Permite ejecutarlo manualmente
   workflow_dispatch:
@@ -42,5 +42,5 @@ jobs:
           port: ${{ secrets.FTP_PORT }}
           protocol: ftp
           local-dir: ./dist/
-          server-dir: /public_html/abogados/
+          server-dir: /abogados/
           dangerous-clean-slate: true
