@@ -1,18 +1,32 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
 import ServicesGrid from "../components/ServicesGrid.astro";
 import Footer from "../components/Footer.astro";
 ---
 
 <BaseLayout title="Servicios para Personas · Manríquez Rivera">
-  <!-- Hero Section -->
-  <section class="relative bg-linear-to-br from-primary via-primary-light to-primary py-20 px-6">
-    <div class="max-w-container mx-auto text-center text-white">
-      <h1 class="text-white text-2xl md:text-3xl lg:text-[38px] font-bold leading-tight mb-4">
-        Servicios para Personas
-      </h1>
-      <p class="text-lg md:text-xl text-white/90 max-w-3xl mx-auto">
+  <PageHero
+    title="Servicios para Personas"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Servicios", href: "/#servicios" },
+      { label: "Personas" }
+    ]}
+    backgroundImage="/images/bg-image/bg-title-serv-personas.jpg"
+  />
+
+  <section class="bg-white py-12 px-6 border-b border-gray-100">
+    <div class="max-w-container mx-auto text-center space-y-4">
+      <p class="text-sm uppercase tracking-[0.3em] text-secondary font-semibold">
+        Protección integral
+      </p>
+      <h2 class="text-3xl md:text-4xl font-bold text-primary">
         Acompañamiento legal cercano y especializado para proteger tus derechos
+      </h2>
+      <p class="text-gray-600 max-w-3xl mx-auto">
+        Guiamos a personas y familias en procesos sensibles, asegurando claridad en cada decisión
+        y una defensa decidida de tus intereses en Chile y el extranjero.
       </p>
     </div>
   </section>

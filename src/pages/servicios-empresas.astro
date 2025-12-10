@@ -1,18 +1,32 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
 import ServicesGrid from "../components/ServicesGrid.astro";
 import Footer from "../components/Footer.astro";
 ---
 
 <BaseLayout title="Servicios para Empresas · Manríquez Rivera">
-  <!-- Hero Section -->
-  <section class="relative bg-linear-to-br from-primary via-primary-light to-primary py-20 px-6">
-    <div class="max-w-container mx-auto text-center text-white">
-      <h1 class="text-white text-2xl md:text-3xl lg:text-[38px] font-bold leading-tight mb-4">
-        Servicios para Empresas
-      </h1>
-      <p class="text-lg md:text-xl text-white/90 max-w-3xl mx-auto">
+  <PageHero
+    title="Servicios para Empresas"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Servicios", href: "/#servicios" },
+      { label: "Empresas" }
+    ]}
+    backgroundImage="/images/bg-image/bg-title-serv-empresas.jpg"
+  />
+
+  <section class="bg-white py-12 px-6 border-b border-gray-100">
+    <div class="max-w-container mx-auto text-center space-y-4">
+      <p class="text-sm uppercase tracking-[0.3em] text-secondary font-semibold">
+        Asesoría empresarial
+      </p>
+      <h2 class="text-3xl md:text-4xl font-bold text-primary">
         Asesoría legal integral especializada en el ámbito empresarial
+      </h2>
+      <p class="text-gray-600 max-w-3xl mx-auto">
+        Diseñamos soluciones jurídicas para directorios y gerencias, alineando cumplimiento normativo,
+        gobierno corporativo y litigios estratégicos con los objetivos de tu organización.
       </p>
     </div>
   </section>
