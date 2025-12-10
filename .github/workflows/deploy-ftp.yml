@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
-          protocol: ftps
+          protocol: ftp
           local-dir: ./dist/
           server-dir: /public_html/prueba/
           dangerous-clean-slate: true
