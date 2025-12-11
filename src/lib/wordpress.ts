@@ -1,5 +1,7 @@
 // Configuración de WordPress API
-const WP_URL = import.meta.env.PUBLIC_WP_URL || 'http://localhost:8888/manriquezrivera';
+// Fijamos explícitamente la URL de WordPress en producción. Importante: usar el mismo
+// esquema (http/https) y path que funciona en el navegador para evitar 404 en el build.
+const WP_URL = 'http://pastelesdelicia.com/admin';
 const WP_MEDIA_URL = import.meta.env.PUBLIC_WP_MEDIA_URL?.replace(/\/$/, '');
 
 function resolveMediaUrl(url: string | undefined): string | undefined {
