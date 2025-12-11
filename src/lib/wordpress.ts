@@ -130,24 +130,44 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
       return [];
     }
 
-    // 1) Obtener el término de la taxonomía por slug para conseguir su ID (estable ante cambios de ID)
-    const termUrl = `${WP_URL}/wp-json/wp/v2/tipo_servicio?slug=${encodeURIComponent(termSlug)}`;
-    const termResponse = await fetch(termUrl);
+    // 1) Intentar obtener el término de la taxonomía por slug para conseguir su ID
+    //    Si falla (404 u otro error), usamos un fallback con IDs conocidos.
+    let taxId: number | undefined;
 
-    if (!termResponse.ok) {
-      console.error('[getServicesByType] Error fetching taxonomy term:', termResponse.status, termResponse.statusText);
-      return [];
+    try {
+      const termUrl = `${WP_URL}/wp-json/wp/v2/tipo_servicio?slug=${encodeURIComponent(termSlug)}`;
+      const termResponse = await fetch(termUrl);
+
+      if (termResponse.ok) {
+        const terms: any[] = await termResponse.json();
+        const term = terms[0];
+
+        if (term && typeof term.id === 'number') {
+          taxId = term.id;
+        } else {
+          console.error('[getServicesByType] Taxonomy term not found for slug:', termSlug);
+        }
+      } else {
+        console.error('[getServicesByType] Error fetching taxonomy term:', termResponse.status, termResponse.statusText);
+      }
+    } catch (error) {
+      console.error('[getServicesByType] Exception fetching taxonomy term:', error);
     }
 
-    const terms: any[] = await termResponse.json();
-    const term = terms[0];
+    // Fallback: si no pudimos obtener el ID por API, usamos los IDs conocidos de tu instalación
+    if (taxId === undefined) {
+      const fallbackIds: Record<string, number> = {
+        empresas: 3,
+        personas: 4,
+      };
 
-    if (!term || typeof term.id !== 'number') {
-      console.error('[getServicesByType] Taxonomy term not found for slug:', termSlug);
-      return [];
+      taxId = fallbackIds[tipo];
+
+      if (!taxId) {
+        console.error('[getServicesByType] No taxonomy ID available for tipo:', tipo);
+        return [];
+      }
     }
-
-    const taxId = term.id;
 
     // 2) Obtener servicios filtrados por taxonomía usando el ID encontrado
     const perPage = limit || 100;
