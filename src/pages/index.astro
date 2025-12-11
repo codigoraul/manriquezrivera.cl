@@ -2,6 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import HeroSlider from "../components/HeroSlider.astro";
 import ServicesGrid from "../components/ServicesGrid.astro";
+import ClientsLogos from "../components/ClientsLogos.astro";
 import Footer from "../components/Footer.astro";
 ---
 
@@ -14,6 +15,8 @@ import Footer from "../components/Footer.astro";
 
   <!-- Servicios Personas (solo 3) -->
   <ServicesGrid tipo="personas" limit={3} />
+
+  <ClientsLogos />
 
   <Footer />
 </BaseLayout>
