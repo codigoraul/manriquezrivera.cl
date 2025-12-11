@@ -115,32 +115,30 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
 // Obtener servicios por tipo (empresas o personas)
 export async function getServicesByType(tipo: string, limit?: number): Promise<Service[]> {
   try {
-    // Primero obtener el ID de la taxonomía
-    const taxResponse = await fetch(
-      `${WP_URL}/wp-json/wp/v2/tipo_servicio?slug=${tipo}`
-    );
-    
-    if (!taxResponse.ok) {
-      console.error('Error fetching taxonomy:', taxResponse.statusText);
+    // IDs fijos de taxonomía en WP:
+    // tipo_servicio=3 → Empresas
+    // tipo_servicio=4 → Personas
+    const tipoIds: Record<string, number> = {
+      empresas: 3,
+      personas: 4
+    };
+
+    const taxId = tipoIds[tipo];
+
+    if (!taxId) {
+      console.error(`[getServicesByType] Unknown tipo "${tipo}"`);
       return [];
     }
-    
-    const taxonomies = await taxResponse.json();
-    if (!taxonomies || taxonomies.length === 0) {
-      console.error(`Taxonomy "${tipo}" not found`);
-      return [];
-    }
-    
-    const taxId = taxonomies[0].id;
-    
-    // Obtener servicios filtrados por taxonomía
+
+    // Obtener servicios filtrados por taxonomía directamente
     const perPage = limit || 100;
-    const response = await fetch(
-      `${WP_URL}/wp-json/wp/v2/servicio?tipo_servicio=${taxId}&_embed&per_page=${perPage}`
-    );
+    const servicesUrl = `${WP_URL}/wp-json/wp/v2/servicio?tipo_servicio=${taxId}&_embed&per_page=${perPage}`;
+    console.error('[getServicesByType] Fetch services URL:', servicesUrl);
+
+    const response = await fetch(servicesUrl);
     
     if (!response.ok) {
-      console.error('Error fetching services by type:', response.statusText);
+      console.error('Error fetching services by type:', response.status, response.statusText);
       return [];
     }
     
