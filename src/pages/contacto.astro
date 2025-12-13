@@ -4,7 +4,7 @@ import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
 
 const contactInfo = [
-  { label: "Ubicación", value: "Santiago, Chile", icon: "map" },
+  { label: "Ubicación", value: "Huérfanos 757 oficina 614, Santiago", icon: "map" },
   { label: "Teléfono", value: "+56 9 1234 5678", href: "tel:+56912345678", icon: "phone" },
   { label: "Correo", value: "contacto@manriquezrivera.cl", href: "mailto:contacto@manriquezrivera.cl", icon: "mail" }
 ];
@@ -38,7 +38,7 @@ const iconPaths: Record<string, string> = {
             Comunícate por tu canal preferido o agenda una reunión presencial en Santiago.
           </p>
         </div>
-        <div class="bg-primary text-white rounded-3xl p-8 shadow-2xl space-y-6">
+        <div class="bg-primary text-white rounded-3xl px-[42px] pb-8 pt-[52px] shadow-2xl space-y-6">
           <ul class="space-y-6">
             {contactInfo.map((info) => (
               <li class="flex items-start gap-4">
@@ -75,7 +75,7 @@ const iconPaths: Record<string, string> = {
         </div>
 
         <form
-          class="bg-[#FFF3D3] rounded-3xl p-8 shadow-xl space-y-6"
+          class="bg-[#FFF3D3] rounded-3xl px-[42px] pb-8 pt-[52px] shadow-xl space-y-6"
           method="post"
           name="contacto-general"
           data-netlify="true"
