@@ -1,7 +1,7 @@
 // Configuración de WordPress API
 // Fijamos explícitamente la URL de WordPress en producción. Importante: usar el mismo
 // esquema (http/https) y path que funciona en el navegador para evitar 404 en el build.
-const WP_URL = (import.meta.env.PUBLIC_WP_URL || 'http://pastelesdelicia.com/admin').replace(/\/$/, '');
+const WP_URL = (import.meta.env.PUBLIC_WP_URL || 'https://manriquezrivera.cl/admin').replace(/\/$/, '');
 const WP_MEDIA_URL = import.meta.env.PUBLIC_WP_MEDIA_URL?.replace(/\/$/, '');
 
 function resolveMediaUrl(url: string | undefined): string | undefined {
@@ -186,13 +186,16 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
     // 2) Obtener servicios filtrados por taxonomía usando el ID encontrado
     const perPage = limit || 100;
     const servicesUrl = `${WP_URL}/wp-json/wp/v2/servicio?tipo_servicio=${taxId}&_embed&per_page=${perPage}&orderby=menu_order&order=asc`;
-    console.error('[getServicesByType] Fetch services URL:', servicesUrl);
 
     const response = await fetch(servicesUrl);
     
     if (!response.ok) {
-      console.error('Error fetching services by type:', response.status, response.statusText);
-      return [];
+      const allServices = await getServices();
+      const filtered = filterServicesByTermSlug(allServices as any[], termSlug);
+      if (!filtered.length) {
+        console.error('Error fetching services by type:', response.status, response.statusText);
+      }
+      return limit ? filtered.slice(0, limit) : filtered;
     }
     
     const services = await response.json();
