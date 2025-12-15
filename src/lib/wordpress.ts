@@ -130,6 +130,20 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
       return [];
     }
 
+    const filterServicesByTermSlug = (services: any[], targetSlug: string) =>
+      services.filter((service) => {
+        const termsGroups = service?._embedded?.['wp:term'];
+        if (!Array.isArray(termsGroups)) return false;
+
+        for (const group of termsGroups) {
+          if (!Array.isArray(group)) continue;
+          for (const term of group) {
+            if (term?.slug === targetSlug) return true;
+          }
+        }
+        return false;
+      });
+
     // 1) Intentar obtener el término de la taxonomía por slug para conseguir su ID
     //    Si falla (404 u otro error), usamos un fallback con IDs conocidos.
     let taxId: number | undefined;
@@ -182,7 +196,13 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
     }
     
     const services = await response.json();
-    return services;
+    if (Array.isArray(services) && services.length > 0) {
+      return services;
+    }
+
+    const allServices = await getServices();
+    const filtered = filterServicesByTermSlug(allServices as any[], termSlug);
+    return limit ? filtered.slice(0, limit) : filtered;
   } catch (error) {
     console.error('Error connecting to WordPress:', error);
     return [];
