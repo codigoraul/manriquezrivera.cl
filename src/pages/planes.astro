@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<BaseLayout title="Planes · Manríquez Rivera">
+  <PageHero
+    title="Planes"
+    breadcrumbs={[
+      { label: "Inicio", href: "/" },
+      { label: "Planes" }
+    ]}
+    backgroundImage="/images/bg-title.jpg"
+  />
+
+  <section class="bg-white py-12 px-6 border-b border-gray-100">
+    <div class="max-w-container mx-auto text-center space-y-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-primary">Planes Empresas</h2>
+      <p class="text-gray-600 max-w-3xl mx-auto">
+        Contamos con diversos planes adaptados a las necesidades y tamaño de su empresa.
+      </p>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

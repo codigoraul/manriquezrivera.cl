@@ -171,7 +171,7 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
 
     // 2) Obtener servicios filtrados por taxonomía usando el ID encontrado
     const perPage = limit || 100;
-    const servicesUrl = `${WP_URL}/wp-json/wp/v2/servicio?tipo_servicio=${taxId}&_embed&per_page=${perPage}`;
+    const servicesUrl = `${WP_URL}/wp-json/wp/v2/servicio?tipo_servicio=${taxId}&_embed&per_page=${perPage}&orderby=menu_order&order=asc`;
     console.error('[getServicesByType] Fetch services URL:', servicesUrl);
 
     const response = await fetch(servicesUrl);
