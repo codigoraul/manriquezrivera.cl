@@ -8,32 +8,47 @@ const withBase = (path: string) => `${baseUrl}${path}`;
 
 const teamMembers = [
   {
-    name: "Daniel Manríquez",
-    role: "Socio Director · Derecho Corporativo",
-    bio: "Especialista en gobierno corporativo, cumplimiento normativo y estructuración de negocios complejos.",
+    name: "Daniel Manríquez Sansigolo",
+    role: "Socio",
+    bio: [
+      "Abogado, Universidad Alberto Hurtado (2014)",
+      "Diplomado en Actualización Jurídica, Instituto de Estudios Judiciales (2019)",
+      "Diplomado en Responsabilidad Civil, Instituto de Estudios Judiciales (2020)",
+      "Diplomado en Derecho de Familia, Universidad Gabriela Mistral (2022)",
+      "Diplomado en Gestión Legal y Responsabilidad de la Empresa, Universidad Central (2025)",
+      "Magíster en Derecho Corporativo, Universidad Central (2024 - en curso)"
+    ],
     colorSrc: withBase("/images/equipo/Daniel.jpg"),
     bwSrc: withBase("/images/equipo/Daniel-2.jpg")
   },
   {
-    name: "Romina López",
-    role: "Senior Counsel · Derecho de Familia y Patrimonial",
-    bio: "Acompaña a personas y familias en planificación patrimonial, sucesiones y acuerdos estratégicos.",
+    name: "Pablo Rivera Neira",
+    role: "Socio",
+    bio: [
+      "Abogado, Universidad de Valparaíso (2018)",
+      "Diplomado en Litigación Oral, Pontificia Universidad Católica de Chile (2021)",
+      "Diplomado en Derecho del Trabajo, Instituto de Estudios Judiciales (2024)",
+      "Diplomado en Litigación Laboral Avanzado, Academia Nacional de Litigación (2025)"
+    ],
+    colorSrc: withBase("/images/nosotros-equipo.jpg"),
+    bwSrc: withBase("/images/nosotros-equipo.jpg")
+  },
+  {
+    name: "Matías Oliva Espinoza",
+    role: "Abogado Asociado",
+    bio: [
+      "Abogado, Universidad Central (2024)",
+      "Diplomado en Derecho del Trabajo, Instituto de Estudios Judiciales (2025)"
+    ],
+    colorSrc: withBase("/images/nosotros-equipo.jpg"),
+    bwSrc: withBase("/images/nosotros-equipo.jpg")
+  },
+  {
+    name: "Romina Rebolledo Asencio",
+    role: "Procuradora",
+    bio: "Egresada de Derecho, Universidad Alberto Hurtado.",
     colorSrc: withBase("/images/equipo/Romina.jpg"),
     bwSrc: withBase("/images/equipo/Romina-2.jpg")
-  },
-  {
-    name: "Matías Rivera",
-    role: "Socio · Litigios y Solución de Controversias",
-    bio: "Conduce estrategias de litigación civil y comercial con foco en soluciones ágiles y efectivas.",
-    colorSrc: withBase("/images/equipo/Mati.jpg"),
-    bwSrc: withBase("/images/equipo/Mati-2.jpg")
-  },
-  {
-    name: "Pablo Fuentes",
-    role: "Senior Counsel · Derecho Laboral",
-    bio: "Asesora a empresas en relaciones laborales, procesos de negociación colectiva y cumplimiento interno.",
-    colorSrc: withBase("/images/equipo/Pablo.jpg"),
-    bwSrc: withBase("/images/equipo/Pablo-2.jpg")
   }
 ];
 ---
@@ -85,22 +100,6 @@ const teamMembers = [
               Nos especializamos en derecho civil, laboral, comercial y de familia, ofreciendo soluciones jurídicas 
               personalizadas que se adaptan a las necesidades específicas de cada cliente.
             </p>
-          </div>
-
-          <!-- Stats -->
-          <div class="grid grid-cols-3 gap-6 mt-8">
-            <div class="text-center">
-              <div class="text-4xl font-bold text-secondary mb-2">15+</div>
-              <div class="text-sm text-gray-600">Años de Experiencia</div>
-            </div>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-secondary mb-2">500+</div>
-              <div class="text-sm text-gray-600">Casos Exitosos</div>
-            </div>
-            <div class="text-center">
-              <div class="text-4xl font-bold text-secondary mb-2">98%</div>
-              <div class="text-sm text-gray-600">Satisfacción</div>
-            </div>
           </div>
         </div>
       </div>
@@ -160,9 +159,17 @@ const teamMembers = [
                   loading="lazy"
                 />
               </div>
-              <h3 class="text-2xl font-bold text-primary mb-2">{member.name}</h3>
+              <h3 class="text-xl md:text-2xl leading-tight font-bold text-primary mb-2">{member.name}</h3>
               <p class="text-secondary font-semibold text-sm uppercase tracking-wider mb-4">{member.role}</p>
-              <p class="text-gray-600 text-sm leading-relaxed flex-1">{member.bio}</p>
+              {Array.isArray(member.bio) ? (
+                <ul class="text-gray-600 text-sm leading-relaxed flex-1 list-disc pl-5 space-y-1">
+                  {member.bio.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p class="text-gray-600 text-sm leading-relaxed flex-1">{member.bio}</p>
+              )}
             </article>
           ))}
         </div>
