@@ -62,7 +62,7 @@ const iconPaths: Record<string, string> = {
           </ul>
           <div class="space-y-3">
             <p class="text-sm uppercase tracking-[0.35em] text-white/70">Horario</p>
-            <p class="text-lg font-semibold">Lunes a Viernes · 09:00 a 18:30</p>
+            <p class="text-lg font-semibold text-white">Lunes a Viernes · 09:00 a 18:30</p>
             <p class="text-white/70">Respuesta en menos de 24 horas hábiles.</p>
           </div>
         </div>
@@ -76,13 +76,11 @@ const iconPaths: Record<string, string> = {
 
         <form
           class="bg-[#FFF3D3] rounded-3xl px-[42px] pb-8 pt-[52px] shadow-xl space-y-6"
-          method="post"
-          name="contacto-general"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
+          action="https://usebasin.com/f/28057ba78b4a"
+          method="POST"
         >
-          <input type="hidden" name="form-name" value="contacto-general" />
-          <input type="hidden" name="bot-field" />
+          <input type="text" name="_gotcha" class="hidden" tabindex="-1" autocomplete="off" />
+          <input type="hidden" name="_subject" value="Nuevo mensaje desde manriquezrivera.cl" />
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <label class="text-sm font-semibold text-gray-700 space-y-2">
               Nombre completo
@@ -96,7 +94,7 @@ const iconPaths: Record<string, string> = {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <label class="text-sm font-semibold text-gray-700 space-y-2">
               Correo electrónico
-              <input type="email" name="correo" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary bg-white" placeholder="tu@correo.com" />
+              <input type="email" name="email" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary bg-white" placeholder="tu@correo.com" />
             </label>
             <label class="text-sm font-semibold text-gray-700 space-y-2">
               Teléfono
@@ -113,7 +111,7 @@ const iconPaths: Record<string, string> = {
           </label>
           <label class="text-sm font-semibold text-gray-700 space-y-2">
             Mensaje
-            <textarea name="mensaje" rows="5" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary bg-white" placeholder="Cuéntanos brevemente tu caso"></textarea>
+            <textarea name="message" rows="5" required class="w-full rounded-xl border border-gray-200 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-secondary bg-white" placeholder="Cuéntanos brevemente tu caso"></textarea>
           </label>
           <button type="submit" class="w-full px-6 py-4 rounded-xl bg-primary text-white font-semibold text-lg hover:bg-primary-light transition-colors mt-4">
             Enviar mensaje
