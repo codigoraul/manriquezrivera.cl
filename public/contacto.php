@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-$BASE_PATH = '/prueba';
-$SITE_URL = 'https://manriquezrivera.cl';
+$BASE_PATH = '';
+$SITE_URL = (isset($_SERVER['HTTP_HOST']) && is_string($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] !== '')
+  ? ('https://' . $_SERVER['HTTP_HOST'])
+  : 'https://manriquezrivera.cl';
 
 $TO_EMAIL = 'contacto@manriquezrivera.cl';
 $FROM_EMAIL = 'contacto@manriquezrivera.cl';
@@ -76,6 +78,12 @@ function contacto_url(string $siteUrl, string $basePath, string $status): string
   return $base . '?' . $qs . '#contacto';
 }
 
+function contacto_url_with_error(string $siteUrl, string $basePath, string $status, string $error): string {
+  $base = base_url($siteUrl, $basePath, '/contacto');
+  $qs = http_build_query(['status' => $status, 'error' => $error]);
+  return $base . '?' . $qs . '#contacto';
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
 }
@@ -135,6 +143,13 @@ if (function_exists('curl_init')) {
 
 $verifyJson = is_string($verifyResponse) ? json_decode($verifyResponse, true) : null;
 if (!is_array($verifyJson) || empty($verifyJson['success'])) {
+  $errorCodes = '';
+  if (is_array($verifyJson) && isset($verifyJson['error-codes']) && is_array($verifyJson['error-codes'])) {
+    $errorCodes = implode(',', array_map('strval', $verifyJson['error-codes']));
+  }
+  if ($errorCodes !== '') {
+    redirect_to(contacto_url_with_error($SITE_URL, $BASE_PATH, 'recaptcha_failed', $errorCodes));
+  }
   redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'recaptcha_failed'));
 }
 
