@@ -70,6 +70,12 @@ function base_url(string $siteUrl, string $basePath, string $path): string {
   return rtrim($siteUrl, '/') . ($basePath ? $basePath : '') . $path;
 }
 
+function contacto_url(string $siteUrl, string $basePath, string $status): string {
+  $base = base_url($siteUrl, $basePath, '/contacto');
+  $qs = http_build_query(['status' => $status]);
+  return $base . '?' . $qs . '#contacto';
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
 }
@@ -87,16 +93,16 @@ $servicio = trim((string)($_POST['servicio'] ?? ''));
 $message = trim((string)($_POST['message'] ?? ''));
 
 if ($nombre === '' || $email === '' || $telefono === '' || $message === '') {
-  redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
+  redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'missing_fields'));
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-  redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
+  redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'invalid_email'));
 }
 
 $recaptchaResponse = trim((string)($_POST['g-recaptcha-response'] ?? ''));
 if ($RECAPTCHA_SECRET === '' || $recaptchaResponse === '') {
-  redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
+  redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'recaptcha_required'));
 }
 
 $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
@@ -129,7 +135,7 @@ if (function_exists('curl_init')) {
 
 $verifyJson = is_string($verifyResponse) ? json_decode($verifyResponse, true) : null;
 if (!is_array($verifyJson) || empty($verifyJson['success'])) {
-  redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
+  redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'recaptcha_failed'));
 }
 
 $subject = 'Nuevo contacto desde manriquezrivera.cl';
@@ -159,4 +165,4 @@ if ($ok) {
   redirect_to(base_url($SITE_URL, $BASE_PATH, '/gracias'));
 }
 
-redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
+redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'mail_failed'));

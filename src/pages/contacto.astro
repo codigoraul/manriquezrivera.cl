@@ -8,6 +8,16 @@ const basePath = rawBase === '/' ? '' : rawBase.replace(/\/$/, '');
 const actionUrl = `${basePath}/contacto.php`;
 const recaptchaSiteKey = import.meta.env.PUBLIC_RECAPTCHA_SITE_KEY ?? '6LemDC0sAAAAALOGDmS7s1N_qMmZqyzaJOP6hVBu';
 
+const status = Astro.url.searchParams.get('status');
+const statusMessage: Record<string, string> = {
+  missing_fields: 'Completa todos los campos obligatorios e inténtalo nuevamente.',
+  invalid_email: 'El correo ingresado no es válido. Revisa e inténtalo nuevamente.',
+  recaptcha_required: 'Por favor, marca la casilla “No soy un robot” para enviar el mensaje.',
+  recaptcha_failed: 'No se pudo validar el reCAPTCHA. Inténtalo nuevamente.',
+  mail_failed: 'No se pudo enviar el mensaje en este momento. Inténtalo nuevamente o escríbenos por WhatsApp.',
+};
+const alertText = status ? statusMessage[status] : '';
+
 const contactInfo = [
   { label: "Ubicación", value: "Huérfanos 757 oficina 614, Santiago", icon: "map" },
   { label: "Teléfono", value: "+56 9 1234 5678", href: "tel:+56912345678", icon: "phone" },
@@ -78,6 +88,12 @@ const iconPaths: Record<string, string> = {
           <p class="text-sm uppercase tracking-[0.3em] text-secondary font-semibold mb-3">Formulario</p>
           <h2 class="text-3xl md:text-4xl font-bold text-primary">Formulario de contacto</h2>
         </div>
+
+        {alertText ? (
+          <div class="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-800">
+            {alertText}
+          </div>
+        ) : null}
 
         <form
           class="bg-[#FFF3D3] rounded-3xl px-[42px] pb-8 pt-[52px] shadow-xl space-y-6"
