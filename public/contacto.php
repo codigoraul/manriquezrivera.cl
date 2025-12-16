@@ -142,6 +142,7 @@ if (function_exists('curl_init')) {
 }
 
 $verifyJson = is_string($verifyResponse) ? json_decode($verifyResponse, true) : null;
+@file_put_contents(__DIR__ . '/recaptcha.log', ($verifyResponse !== null ? $verifyResponse : 'NO_RESPONSE') . "\n", FILE_APPEND);
 if (!is_array($verifyJson) || empty($verifyJson['success'])) {
   $errorCodes = '';
   if (is_array($verifyJson) && isset($verifyJson['error-codes']) && is_array($verifyJson['error-codes'])) {
