@@ -1,0 +1,12 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+  'BASE_PATH' => '',
+  'SITE_URL' => 'https://manriquezrivera.cl',
+  'TO_EMAIL' => 'contacto@manriquezrivera.cl',
+  'FROM_EMAIL' => 'contacto@manriquezrivera.cl',
+  'FROM_NAME' => 'Manríquez Rivera',
+  'RECAPTCHA_SECRET' => '',
+];
