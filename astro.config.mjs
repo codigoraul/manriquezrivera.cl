@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   output: 'static',
   site: 'https://manriquezrivera.cl',
-  base: '/prueba',
+  base: process.env.ASTRO_BASE ?? '/prueba',
   vite: {
     plugins: [tailwindcss()]
   }

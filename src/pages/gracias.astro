@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const rawBase = import.meta.env.BASE_URL ?? '/';
+const basePath = rawBase === '/' ? '' : rawBase.replace(/\/$/, '');
+const homeHref = `${basePath}/`;
+const contactoHref = `${basePath}/contacto#contacto`;
+---
+
+<BaseLayout title="Gracias · Manríquez Rivera">
+  <section class="min-h-[70vh] flex items-center justify-center px-6 py-20 bg-white">
+    <div class="max-w-2xl w-full text-center rounded-3xl border border-gray-100 shadow-xl p-10 md:p-14">
+      <div class="mx-auto w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5" />
+        </svg>
+      </div>
+      <h1 class="mt-6 text-3xl md:text-4xl font-bold text-primary">¡Gracias por tu mensaje!</h1>
+      <p class="mt-4 text-gray-600 text-lg">Lo recibimos correctamente. Te responderemos a la brevedad (en menos de 24 horas hábiles).</p>
+      <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+        <a href={contactoHref} class="px-7 py-3 rounded-full bg-primary text-white font-semibold hover:bg-primary-light transition">Enviar otro mensaje</a>
+        <a href={homeHref} class="px-7 py-3 rounded-full border border-gray-300 text-gray-800 font-semibold hover:bg-gray-50 transition">Volver al inicio</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
