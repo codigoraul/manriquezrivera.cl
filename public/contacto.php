@@ -104,26 +104,34 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 $subject = 'Nuevo contacto desde manriquezrivera.cl';
 
-$lines = [];
-$lines[] = 'Nuevo contacto desde el sitio web:';
-$lines[] = '';
-$lines[] = 'Nombre: ' . $nombre;
-if ($empresa !== '') $lines[] = 'Empresa: ' . $empresa;
-$lines[] = 'Email: ' . $email;
-$lines[] = 'Teléfono: ' . $telefono;
-if ($servicio !== '') $lines[] = 'Servicio: ' . $servicio;
-$lines[] = '';
-$lines[] = 'Mensaje:';
-$lines[] = $message;
-$bodyText = implode("\n", $lines);
+$escape = static function (string $value): string {
+  return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+};
+
+$empresaCell = $empresa !== '' ? $escape($empresa) : '-';
+$servicioCell = $servicio !== '' ? $escape($servicio) : '-';
+$messageHtml = nl2br($escape($message));
+
+$bodyHtml = '<!doctype html><html><head><meta charset="UTF-8"></head><body style="font-family:Arial,Helvetica,sans-serif; color:#111827;">'
+  . '<h2 style="margin:0 0 16px; font-size:18px;">Nuevo contacto desde el sitio web</h2>'
+  . '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; width:100%; max-width:640px;">'
+  . '<tbody>'
+  . '<tr><td style="padding:8px 10px; border:1px solid #E5E7EB; font-weight:700; width:180px;">Nombre</td><td style="padding:8px 10px; border:1px solid #E5E7EB;">' . $escape($nombre) . '</td></tr>'
+  . '<tr><td style="padding:8px 10px; border:1px solid #E5E7EB; font-weight:700;">Empresa</td><td style="padding:8px 10px; border:1px solid #E5E7EB;">' . $empresaCell . '</td></tr>'
+  . '<tr><td style="padding:8px 10px; border:1px solid #E5E7EB; font-weight:700;">Email</td><td style="padding:8px 10px; border:1px solid #E5E7EB;">' . $escape($email) . '</td></tr>'
+  . '<tr><td style="padding:8px 10px; border:1px solid #E5E7EB; font-weight:700;">Teléfono</td><td style="padding:8px 10px; border:1px solid #E5E7EB;">' . $escape($telefono) . '</td></tr>'
+  . '<tr><td style="padding:8px 10px; border:1px solid #E5E7EB; font-weight:700;">Servicio</td><td style="padding:8px 10px; border:1px solid #E5E7EB;">' . $servicioCell . '</td></tr>'
+  . '<tr><td style="padding:8px 10px; border:1px solid #E5E7EB; font-weight:700; vertical-align:top;">Mensaje</td><td style="padding:8px 10px; border:1px solid #E5E7EB;">' . $messageHtml . '</td></tr>'
+  . '</tbody></table>'
+  . '</body></html>';
 
 $headers = [];
 $headers[] = 'MIME-Version: 1.0';
-$headers[] = 'Content-Type: text/plain; charset=UTF-8';
+$headers[] = 'Content-Type: text/html; charset=UTF-8';
 $headers[] = 'From: ' . $FROM_NAME . ' <' . $FROM_EMAIL . '>';
 $headers[] = 'Reply-To: ' . $nombre . ' <' . $email . '>';
 
-$ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $bodyText, implode("\r\n", $headers));
+$ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $bodyHtml, implode("\r\n", $headers));
 
 if ($ok) {
   redirect_to(base_url($SITE_URL, $BASE_PATH, '/gracias'));
