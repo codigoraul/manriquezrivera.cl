@@ -11,6 +11,8 @@ $TO_EMAIL = 'contacto@manriquezrivera.cl';
 $FROM_EMAIL = 'contacto@manriquezrivera.cl';
 $FROM_NAME = 'Manríquez Rivera';
 
+$CONFIG_USED_PATH = '';
+
 $ENV_BASE_PATH = getenv('ASTRO_BASE');
 if ($ENV_BASE_PATH !== false && $ENV_BASE_PATH !== '') {
   $BASE_PATH = $ENV_BASE_PATH;
@@ -51,6 +53,7 @@ foreach ($CONFIG_PATHS as $configPath) {
       if (isset($config['FROM_EMAIL']) && is_string($config['FROM_EMAIL'])) $FROM_EMAIL = $config['FROM_EMAIL'];
       if (isset($config['FROM_NAME']) && is_string($config['FROM_NAME'])) $FROM_NAME = $config['FROM_NAME'];
     }
+    $CONFIG_USED_PATH = $configPath;
     break;
   }
 }
@@ -79,6 +82,20 @@ function contacto_url_with_error(string $siteUrl, string $basePath, string $stat
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  if (isset($_GET['debug']) && $_GET['debug'] === '1') {
+    header('Content-Type: application/json; charset=UTF-8');
+    echo json_encode([
+      'handler' => 'contacto.php',
+      'site_url' => $SITE_URL,
+      'base_path' => $BASE_PATH,
+      'to_email' => $TO_EMAIL,
+      'from_email' => $FROM_EMAIL,
+      'from_name' => $FROM_NAME,
+      'config_used' => $CONFIG_USED_PATH !== '' ? basename($CONFIG_USED_PATH) : null,
+      'config_used_path' => $CONFIG_USED_PATH !== '' ? $CONFIG_USED_PATH : null,
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    exit;
+  }
   redirect_to(base_url($SITE_URL, $BASE_PATH, '/contacto#contacto'));
 }
 
