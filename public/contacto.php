@@ -153,15 +153,44 @@ $bodyHtml = '<!doctype html><html><head><meta charset="UTF-8"></head><body style
   . '</tbody></table>'
   . '</body></html>';
 
+$bodyText = "Nuevo contacto desde el sitio web\n\n"
+  . "Nombre: {$nombre}\n"
+  . "Empresa: " . ($empresa !== '' ? $empresa : '-') . "\n"
+  . "Email: {$email}\n"
+  . "Teléfono: {$telefono}\n"
+  . "Servicio: " . ($servicio !== '' ? $servicio : '-') . "\n\n"
+  . "Mensaje:\n{$message}\n";
+
+$boundary = 'mr_' . bin2hex(random_bytes(12));
+$body = "--{$boundary}\r\n"
+  . "Content-Type: text/plain; charset=UTF-8\r\n"
+  . "Content-Transfer-Encoding: 8bit\r\n\r\n"
+  . $bodyText . "\r\n\r\n"
+  . "--{$boundary}\r\n"
+  . "Content-Type: text/html; charset=UTF-8\r\n"
+  . "Content-Transfer-Encoding: 8bit\r\n\r\n"
+  . $bodyHtml . "\r\n\r\n"
+  . "--{$boundary}--\r\n";
+
 $headers = [];
 $headers[] = 'MIME-Version: 1.0';
-$headers[] = 'Content-Type: text/html; charset=UTF-8';
+$headers[] = 'Content-Type: multipart/alternative; boundary="' . $boundary . '"';
+$headers[] = 'Date: ' . date(DATE_RFC2822);
+$host = parse_url($SITE_URL, PHP_URL_HOST);
+if (!is_string($host) || $host === '') {
+  $host = 'manriquezrivera.cl';
+}
+$headers[] = 'Message-ID: <' . bin2hex(random_bytes(16)) . '@' . $host . '>';
 $headers[] = 'From: ' . $encodeDisplayName($FROM_NAME) . ' <' . $sanitizeHeaderValue($FROM_EMAIL) . '>';
 $replyToName = $encodeDisplayName($nombre);
 $replyToEmail = $sanitizeHeaderValue($email);
 $headers[] = 'Reply-To: ' . ($replyToName !== '' ? ($replyToName . ' ') : '') . '<' . $replyToEmail . '>';
 
-$ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $bodyHtml, implode("\r\n", $headers));
+$params = '-f ' . $sanitizeHeaderValue($FROM_EMAIL);
+$ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers), $params);
+if (!$ok) {
+  $ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
+}
 
 if ($ok) {
   redirect_to(base_url($SITE_URL, $BASE_PATH, '/gracias'));
