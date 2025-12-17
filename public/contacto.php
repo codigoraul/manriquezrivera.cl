@@ -7,9 +7,10 @@ $SITE_URL = (isset($_SERVER['HTTP_HOST']) && is_string($_SERVER['HTTP_HOST']) &&
   ? ('https://' . $_SERVER['HTTP_HOST'])
   : 'https://manriquezrivera.cl';
 
-$TO_EMAIL = 'contacto@manriquezrivera.cl';
+$TO_EMAIL = 'contacto@manriquezrivera.cl, codigoraul@gmail.com';
 $FROM_EMAIL = 'contacto@manriquezrivera.cl';
 $FROM_NAME = 'Manríquez Rivera';
+$BCC_EMAILS = '';
 
 $CONFIG_USED_PATH = '';
 
@@ -38,6 +39,11 @@ if ($ENV_FROM_NAME !== false && $ENV_FROM_NAME !== '') {
   $FROM_NAME = $ENV_FROM_NAME;
 }
 
+$ENV_BCC_EMAILS = getenv('CONTACT_BCC_EMAILS');
+if ($ENV_BCC_EMAILS !== false && $ENV_BCC_EMAILS !== '') {
+  $BCC_EMAILS = $ENV_BCC_EMAILS;
+}
+
 $CONFIG_PATHS = [
   __DIR__ . '/contacto-config.php',
   dirname(__DIR__) . '/contacto-config.php',
@@ -52,6 +58,7 @@ foreach ($CONFIG_PATHS as $configPath) {
       if (isset($config['TO_EMAIL']) && is_string($config['TO_EMAIL'])) $TO_EMAIL = $config['TO_EMAIL'];
       if (isset($config['FROM_EMAIL']) && is_string($config['FROM_EMAIL'])) $FROM_EMAIL = $config['FROM_EMAIL'];
       if (isset($config['FROM_NAME']) && is_string($config['FROM_NAME'])) $FROM_NAME = $config['FROM_NAME'];
+      if (isset($config['BCC_EMAILS']) && is_string($config['BCC_EMAILS'])) $BCC_EMAILS = $config['BCC_EMAILS'];
     }
     $CONFIG_USED_PATH = $configPath;
     break;
@@ -91,6 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
       'to_email' => $TO_EMAIL,
       'from_email' => $FROM_EMAIL,
       'from_name' => $FROM_NAME,
+      'bcc_emails' => $BCC_EMAILS !== '' ? $BCC_EMAILS : null,
       'config_used' => $CONFIG_USED_PATH !== '' ? basename($CONFIG_USED_PATH) : null,
       'config_used_path' => $CONFIG_USED_PATH !== '' ? $CONFIG_USED_PATH : null,
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -134,6 +142,24 @@ $encodeDisplayName = static function (string $value) use ($sanitizeHeaderValue):
   $value = $sanitizeHeaderValue($value);
   if ($value === '') return '';
   return '=?UTF-8?B?' . base64_encode($value) . '?=';
+};
+
+$parseEmailList = static function (string $value) use ($sanitizeHeaderValue): array {
+  $value = $sanitizeHeaderValue($value);
+  if ($value === '') return [];
+
+  $parts = preg_split('/[\s,;]+/', $value, -1, PREG_SPLIT_NO_EMPTY);
+  if ($parts === false) return [];
+
+  $emails = [];
+  foreach ($parts as $part) {
+    $email = $sanitizeHeaderValue($part);
+    if ($email === '') continue;
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) continue;
+    $emails[] = $email;
+  }
+
+  return array_values(array_unique($emails));
 };
 
 $empresaCell = $empresa !== '' ? $escape($empresa) : '-';
@@ -186,10 +212,18 @@ $replyToName = $encodeDisplayName($nombre);
 $replyToEmail = $sanitizeHeaderValue($email);
 $headers[] = 'Reply-To: ' . ($replyToName !== '' ? ($replyToName . ' ') : '') . '<' . $replyToEmail . '>';
 
+$toEmails = $parseEmailList($TO_EMAIL);
+$toHeader = $toEmails !== [] ? implode(', ', $toEmails) : $sanitizeHeaderValue($TO_EMAIL);
+
+$bccEmails = $parseEmailList($BCC_EMAILS);
+if ($bccEmails !== []) {
+  $headers[] = 'Bcc: ' . implode(', ', $bccEmails);
+}
+
 $params = '-f ' . $sanitizeHeaderValue($FROM_EMAIL);
-$ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers), $params);
+$ok = @mail($toHeader, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers), $params);
 if (!$ok) {
-  $ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
+  $ok = @mail($toHeader, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
 }
 
 if ($ok) {
