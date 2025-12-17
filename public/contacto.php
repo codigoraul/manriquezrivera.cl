@@ -125,6 +125,17 @@ $escape = static function (string $value): string {
   return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 };
 
+$sanitizeHeaderValue = static function (string $value): string {
+  $value = str_replace(["\r", "\n"], ' ', $value);
+  return trim($value);
+};
+
+$encodeDisplayName = static function (string $value) use ($sanitizeHeaderValue): string {
+  $value = $sanitizeHeaderValue($value);
+  if ($value === '') return '';
+  return '=?UTF-8?B?' . base64_encode($value) . '?=';
+};
+
 $empresaCell = $empresa !== '' ? $escape($empresa) : '-';
 $servicioCell = $servicio !== '' ? $escape($servicio) : '-';
 $messageHtml = nl2br($escape($message));
@@ -145,8 +156,10 @@ $bodyHtml = '<!doctype html><html><head><meta charset="UTF-8"></head><body style
 $headers = [];
 $headers[] = 'MIME-Version: 1.0';
 $headers[] = 'Content-Type: text/html; charset=UTF-8';
-$headers[] = 'From: ' . $FROM_NAME . ' <' . $FROM_EMAIL . '>';
-$headers[] = 'Reply-To: ' . $nombre . ' <' . $email . '>';
+$headers[] = 'From: ' . $encodeDisplayName($FROM_NAME) . ' <' . $sanitizeHeaderValue($FROM_EMAIL) . '>';
+$replyToName = $encodeDisplayName($nombre);
+$replyToEmail = $sanitizeHeaderValue($email);
+$headers[] = 'Reply-To: ' . ($replyToName !== '' ? ($replyToName . ' ') : '') . '<' . $replyToEmail . '>';
 
 $ok = @mail($TO_EMAIL, '=?UTF-8?B?' . base64_encode($subject) . '?=', $bodyHtml, implode("\r\n", $headers));
 
