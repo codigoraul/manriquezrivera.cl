@@ -8,5 +8,4 @@ return [
   'TO_EMAIL' => 'contacto@manriquezrivera.cl',
   'FROM_EMAIL' => 'contacto@manriquezrivera.cl',
   'FROM_NAME' => 'Manríquez Rivera',
-  'RECAPTCHA_SECRET' => '',
 ];

@@ -36,11 +36,6 @@ if ($ENV_FROM_NAME !== false && $ENV_FROM_NAME !== '') {
   $FROM_NAME = $ENV_FROM_NAME;
 }
 
-$RECAPTCHA_SECRET = getenv('RECAPTCHA_SECRET');
-if ($RECAPTCHA_SECRET === false) {
-  $RECAPTCHA_SECRET = '';
-}
-
 $CONFIG_PATHS = [
   __DIR__ . '/contacto-config.php',
   dirname(__DIR__) . '/contacto-config.php',
@@ -55,7 +50,6 @@ foreach ($CONFIG_PATHS as $configPath) {
       if (isset($config['TO_EMAIL']) && is_string($config['TO_EMAIL'])) $TO_EMAIL = $config['TO_EMAIL'];
       if (isset($config['FROM_EMAIL']) && is_string($config['FROM_EMAIL'])) $FROM_EMAIL = $config['FROM_EMAIL'];
       if (isset($config['FROM_NAME']) && is_string($config['FROM_NAME'])) $FROM_NAME = $config['FROM_NAME'];
-      if (isset($config['RECAPTCHA_SECRET']) && is_string($config['RECAPTCHA_SECRET'])) $RECAPTCHA_SECRET = $config['RECAPTCHA_SECRET'];
     }
     break;
   }
@@ -106,52 +100,6 @@ if ($nombre === '' || $email === '' || $telefono === '' || $message === '') {
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
   redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'invalid_email'));
-}
-
-$recaptchaResponse = trim((string)($_POST['g-recaptcha-response'] ?? ''));
-if ($RECAPTCHA_SECRET === '' || $recaptchaResponse === '') {
-  redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'recaptcha_required'));
-}
-
-$verifyUrl = 'https://www.google.com/recaptcha/api/siteverify';
-$postData = http_build_query([
-  'secret' => $RECAPTCHA_SECRET,
-  'response' => $recaptchaResponse,
-  'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
-]);
-
-$verifyResponse = null;
-if (function_exists('curl_init')) {
-  $ch = curl_init($verifyUrl);
-  curl_setopt($ch, CURLOPT_POST, true);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-  curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-  $verifyResponse = curl_exec($ch);
-  curl_close($ch);
-} else {
-  $context = stream_context_create([
-    'http' => [
-      'method' => 'POST',
-      'header' => "Content-Type: application/x-www-form-urlencoded\r\n",
-      'content' => $postData,
-      'timeout' => 10,
-    ]
-  ]);
-  $verifyResponse = @file_get_contents($verifyUrl, false, $context);
-}
-
-$verifyJson = is_string($verifyResponse) ? json_decode($verifyResponse, true) : null;
-@file_put_contents(__DIR__ . '/recaptcha.log', ($verifyResponse !== null ? $verifyResponse : 'NO_RESPONSE') . "\n", FILE_APPEND);
-if (!is_array($verifyJson) || empty($verifyJson['success'])) {
-  $errorCodes = '';
-  if (is_array($verifyJson) && isset($verifyJson['error-codes']) && is_array($verifyJson['error-codes'])) {
-    $errorCodes = implode(',', array_map('strval', $verifyJson['error-codes']));
-  }
-  if ($errorCodes !== '') {
-    redirect_to(contacto_url_with_error($SITE_URL, $BASE_PATH, 'recaptcha_failed', $errorCodes));
-  }
-  redirect_to(contacto_url($SITE_URL, $BASE_PATH, 'recaptcha_failed'));
 }
 
 $subject = 'Nuevo contacto desde manriquezrivera.cl';
