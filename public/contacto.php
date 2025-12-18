@@ -7,7 +7,8 @@ $SITE_URL = (isset($_SERVER['HTTP_HOST']) && is_string($_SERVER['HTTP_HOST']) &&
   ? ('https://' . $_SERVER['HTTP_HOST'])
   : 'https://manriquezrivera.cl';
 
-$TO_EMAIL = 'contacto@manriquezrivera.cl, codigoraul@gmail.com';
+$TO_EMAILS_BASE = 'contacto@manriquezrivera.cl, codigoraul@gmail.com, manriquezrivera.abogados@gmail.com';
+$TO_EMAIL = $TO_EMAILS_BASE;
 $FROM_EMAIL = 'contacto@manriquezrivera.cl';
 $FROM_NAME = 'Manríquez Rivera';
 $BCC_EMAILS = '';
@@ -26,7 +27,7 @@ if ($ENV_SITE_URL !== false && $ENV_SITE_URL !== '') {
 
 $ENV_TO_EMAIL = getenv('CONTACT_TO_EMAIL');
 if ($ENV_TO_EMAIL !== false && $ENV_TO_EMAIL !== '') {
-  $TO_EMAIL = $ENV_TO_EMAIL;
+  $TO_EMAIL = $TO_EMAILS_BASE . ', ' . $ENV_TO_EMAIL;
 }
 
 $ENV_FROM_EMAIL = getenv('CONTACT_FROM_EMAIL');
@@ -55,7 +56,7 @@ foreach ($CONFIG_PATHS as $configPath) {
     if (is_array($config)) {
       if (isset($config['BASE_PATH']) && is_string($config['BASE_PATH'])) $BASE_PATH = $config['BASE_PATH'];
       if (isset($config['SITE_URL']) && is_string($config['SITE_URL'])) $SITE_URL = $config['SITE_URL'];
-      if (isset($config['TO_EMAIL']) && is_string($config['TO_EMAIL'])) $TO_EMAIL = $config['TO_EMAIL'];
+      if (isset($config['TO_EMAIL']) && is_string($config['TO_EMAIL'])) $TO_EMAIL = $TO_EMAILS_BASE . ', ' . $config['TO_EMAIL'];
       if (isset($config['FROM_EMAIL']) && is_string($config['FROM_EMAIL'])) $FROM_EMAIL = $config['FROM_EMAIL'];
       if (isset($config['FROM_NAME']) && is_string($config['FROM_NAME'])) $FROM_NAME = $config['FROM_NAME'];
       if (isset($config['BCC_EMAILS']) && is_string($config['BCC_EMAILS'])) $BCC_EMAILS = $config['BCC_EMAILS'];
