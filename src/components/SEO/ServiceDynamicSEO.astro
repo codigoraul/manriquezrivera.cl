@@ -1,0 +1,41 @@
+---
+import type { Service } from '../../lib/wordpress';
+
+interface Props {
+  service: Service;
+  defaultImage?: string;
+}
+
+const { service, defaultImage = '/images/og-default.jpg' } = Astro.props as Props;
+const rawBase = import.meta.env.BASE_URL ?? '/';
+const basePath = rawBase === '/' ? '' : rawBase.replace(/\/$/, '');
+const withBase = (path = '') => {
+  if (!path) return basePath || '/';
+  return path.startsWith('/') ? `${basePath}${path}` : `${basePath}/${path}`;
+};
+
+// Extraer datos SEO de Yoast
+const yoastTitle = service.yoast_head_json?.title || service.title?.rendered || 'Servicio';
+const yoastDescription = service.yoast_head_json?.description || 'Servicio de Manríquez Rivera';
+const yoastKeywords = service.yoast_head_json?.keywords || '';
+const yoastImage = service.yoast_head_json?.og_image?.[0]?.url || defaultImage;
+---
+
+<!-- Meta Tags Basic SEO -->
+<title>{yoastTitle}</title>
+<meta name="description" content={yoastDescription} />
+<meta name="keywords" content={yoastKeywords} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+<meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+<meta property="og:title" content={yoastTitle} />
+<meta property="og:description" content={yoastDescription} />
+<meta property="og:image" content={withBase(yoastImage)} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+<meta property="twitter:title" content={yoastTitle} />
+<meta property="twitter:description" content={yoastDescription} />
+<meta property="twitter:image" content={withBase(yoastImage)} />

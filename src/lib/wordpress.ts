@@ -40,6 +40,14 @@ export interface Service {
     imagen_destacada?: string;
     orden?: number;
   };
+  yoast_head_json?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+    og_title?: string;
+    og_description?: string;
+    og_image?: Array<{ url: string }>;
+  };
   _embedded?: {
     'wp:featuredmedia'?: Array<{
       source_url: string;
@@ -79,7 +87,7 @@ export interface Post {
 export async function getServices(): Promise<Service[]> {
   try {
     const response = await fetch(
-      `${WP_URL}/wp-json/wp/v2/servicio?_embed&per_page=100`
+      `${WP_URL}/wp-json/wp/v2/servicio?per_page=100`
     );
     
     if (!response.ok) {
@@ -99,7 +107,7 @@ export async function getServices(): Promise<Service[]> {
 export async function getServiceBySlug(slug: string): Promise<Service | null> {
   try {
     const response = await fetch(
-      `${WP_URL}/wp-json/wp/v2/servicio?slug=${slug}&_embed`
+      `${WP_URL}/wp-json/wp/v2/servicio?slug=${slug}`
     );
     
     if (!response.ok) {
@@ -185,7 +193,7 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
 
     // 2) Obtener servicios filtrados por taxonomía usando el ID encontrado
     const perPage = limit || 100;
-    const servicesUrl = `${WP_URL}/wp-json/wp/v2/servicio?tipo_servicio=${taxId}&_embed&per_page=${perPage}&orderby=menu_order&order=asc`;
+    const servicesUrl = `${WP_URL}/wp-json/wp/v2/servicio?tipo_servicio=${taxId}&per_page=${perPage}&orderby=menu_order&order=asc`;
 
     const response = await fetch(servicesUrl);
     
@@ -229,7 +237,7 @@ export function getFeaturedImage(service: Service): string {
 export async function getPosts(perPage = 9): Promise<Post[]> {
   try {
     const response = await fetch(
-      `${WP_URL}/wp-json/wp/v2/posts?_embed&per_page=${perPage}`
+      `${WP_URL}/wp-json/wp/v2/posts?per_page=${perPage}`
     );
 
     if (!response.ok) {
@@ -251,7 +259,7 @@ export async function getAllPosts(): Promise<Post[]> {
 export async function getPostBySlug(slug: string): Promise<Post | null> {
   try {
     const response = await fetch(
-      `${WP_URL}/wp-json/wp/v2/posts?slug=${slug}&_embed`
+      `${WP_URL}/wp-json/wp/v2/posts?slug=${slug}`
     );
 
     if (!response.ok) {

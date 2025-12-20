@@ -23,6 +23,24 @@ const withBase = (path = '') => {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
+    <!-- Meta Tags Basic SEO -->
+    <meta name="description" content="Estudio jurídico Manríquez Rivera - Especialistas en derecho civil, comercial y familia" />
+    <meta name="keywords" content="abogados, estudio jurídico, derecho civil, derecho comercial, Santiago" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content="Estudio jurídico Manríquez Rivera - Especialistas en derecho civil, comercial y familia" />
+    <meta property="og:image" content={withBase('/images/og-default.jpg')} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content="Estudio jurídico Manríquez Rivera - Especialistas en derecho civil, comercial y familia" />
+    <meta property="twitter:image" content={withBase('/images/og-default.jpg')} />
+
     <!-- Tipografía Lato desde Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
