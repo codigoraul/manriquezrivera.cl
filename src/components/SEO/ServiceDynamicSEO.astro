@@ -1,0 +1,52 @@
+---
+import type { Service } from '../../lib/wordpress';
+
+interface Props {
+  service: Service;
+  defaultImage?: string;
+}
+
+const { service, defaultImage = '/images/og-default.jpg' } = Astro.props as Props;
+const rawBase = import.meta.env.BASE_URL ?? '/';
+const basePath = rawBase === '/' ? '' : rawBase.replace(/\/$/, '');
+const withBase = (path = '') => {
+  if (!path) return basePath || '/';
+  return path.startsWith('/') ? `${basePath}${path}` : `${basePath}/${path}`;
+};
+
+// Parse yoast_head_json if it's a string
+let yoastHead = service.yoast_head_json;
+if (typeof yoastHead === 'string') {
+  try {
+    yoastHead = JSON.parse(yoastHead);
+  } catch (e) {
+    console.error('Error parsing yoast_head_json', e);
+    yoastHead = {};
+  }
+}
+
+const yoastTitle = yoastHead?.title || service?.title?.rendered || 'Servicio';
+const yoastDescription = yoastHead?.description || (service?.title?.rendered ? service.title.rendered : 'Servicio de Manríquez Rivera');
+const yoastKeywords = yoastHead?.keywords || '';
+const rawYoastImage = yoastHead?.og_image?.[0]?.url || defaultImage;
+// Solo aplicar withBase si la imagen es una ruta relativa (no URL absoluta)
+const yoastImage = rawYoastImage.startsWith('http') ? rawYoastImage : withBase(rawYoastImage);
+---
+
+<!-- Meta Tags Basic SEO (title viene del BaseLayout) -->
+<meta name="description" content={yoastDescription} />
+{yoastKeywords && <meta name="keywords" content={yoastKeywords} />}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+<meta property="og:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+<meta property="og:title" content={yoastTitle} />
+<meta property="og:description" content={yoastDescription} />
+<meta property="og:image" content={yoastImage} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={new URL(Astro.url.pathname, Astro.site).toString()} />
+<meta property="twitter:title" content={yoastTitle} />
+<meta property="twitter:description" content={yoastDescription} />
+<meta property="twitter:image" content={yoastImage} />

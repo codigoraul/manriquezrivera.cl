@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
 import { getServices, getServiceBySlug, getFeaturedImage } from "../../lib/wordpress";
+import ServiceDynamicSEO from "../../components/SEO/ServiceDynamicSEO.astro";
 
 export const prerender = true;
 
@@ -20,6 +21,10 @@ if (!service) {
   return Astro.redirect(`${Astro.base}/404`);
 }
 
+console.log('Service in [slug].astro:', service);
+const featuredImage = getFeaturedImage(service);
+console.log('Featured image URL:', featuredImage);
+
 // Función para obtener título de forma segura
 function getTitle(service: any): string {
   return service.title?.rendered || service.title || 'Servicio';
@@ -33,12 +38,18 @@ function getContent(service: any): string {
 const title = getTitle(service);
 const content = getContent(service);
 
+// Obtener título SEO de Yoast si existe
+const yoastTitle = service.yoast_head_json?.title || `${title} · Manríquez Rivera`;
+
 const rawBase = import.meta.env.BASE_URL ?? '/';
 const basePath = rawBase === '/' ? '' : rawBase.replace(/\/$/, '');
 const contactoHref = `${basePath}/contacto#contacto`;
 ---
 
-<BaseLayout title={`${title} · Manríquez Rivera`}>
+<BaseLayout title={yoastTitle}>
+  <fragment slot="head">
+    <ServiceDynamicSEO service={service} />
+  </fragment>
   <PageHero 
     title={title}
     breadcrumbs={[
@@ -61,7 +72,7 @@ const contactoHref = `${basePath}/contacto#contacto`;
           <div class="sticky top-8">
             <div class="relative rounded-2xl overflow-hidden shadow-2xl">
               <img 
-                src={getFeaturedImage(service)}
+                src={featuredImage}
                 alt={title}
                 class="w-full h-auto object-cover"
               />

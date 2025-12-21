@@ -22,6 +22,9 @@ const withBase = (path = '') => {
     <link rel="icon" type="image/png" sizes="32x32" href={withBase('/images/favicon.png')} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    
+    <!-- Slot para SEO dinámico y meta tags adicionales -->
+    <slot name="head" />
 
     <!-- Tipografía Lato desde Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

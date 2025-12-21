@@ -40,6 +40,7 @@ export interface Service {
     imagen_destacada?: string;
     orden?: number;
   };
+  yoast_head_json?: any;
   _embedded?: {
     'wp:featuredmedia'?: Array<{
       source_url: string;
@@ -62,6 +63,7 @@ export interface Post {
   slug: string;
   date?: string;
   categories?: number[];
+  yoast_head_json?: any;
   _embedded?: {
     'wp:featuredmedia'?: Array<{
       source_url: string;
@@ -214,13 +216,14 @@ export async function getServicesByType(tipo: string, limit?: number): Promise<S
 
 // Obtener imagen destacada
 export function getFeaturedImage(service: Service): string {
+  console.log('Service in getFeaturedImage:', service);
   if (service._embedded?.['wp:featuredmedia']?.[0]?.source_url) {
-    return (
-      resolveMediaUrl(service._embedded['wp:featuredmedia'][0].source_url) ||
-      service._embedded['wp:featuredmedia'][0].source_url
-    );
+    console.log('Found featured media:', service._embedded['wp:featuredmedia'][0].source_url);
+    const resolvedUrl = resolveMediaUrl(service._embedded['wp:featuredmedia'][0].source_url);
+    console.log('Resolved media URL:', resolvedUrl);
+    return resolvedUrl || service._embedded['wp:featuredmedia'][0].source_url;
   }
-  // Usar BASE_URL si está disponible, sino usar ruta relativa
+  console.log('Using default image');
   const baseUrl = import.meta.env.BASE_URL || '';
   return `${baseUrl}/images/servicio-default.jpg`;
 }
