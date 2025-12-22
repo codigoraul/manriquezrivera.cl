@@ -51,23 +51,23 @@ const iconPaths: Record<string, string> = {
             Comunícate por tu canal preferido o agenda una reunión presencial en Santiago.
           </p>
         </div>
-        <div class="bg-primary text-white rounded-3xl px-[42px] pb-8 pt-[52px] shadow-2xl space-y-6">
+        <div class="bg-primary text-white rounded-3xl px-6 md:px-[42px] pb-8 pt-12 md:pt-[52px] shadow-2xl space-y-6">
           <ul class="space-y-6">
             {contactInfo.map((info) => (
-              <li class="flex items-start gap-4">
-                <span class="w-12 h-12 rounded-full bg-white/15 text-secondary flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <li class="flex items-start gap-3 md:gap-4">
+                <span class="w-8 h-8 md:w-10 md:h-10 shrink-0 rounded-full bg-white/15 text-secondary flex items-center justify-center aspect-square">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5 aspect-square" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" preserveAspectRatio="xMidYMid meet">
                     <path d={iconPaths[info.icon]} />
                   </svg>
                 </span>
                 <div>
                   <p class="text-xs uppercase tracking-[0.35em] text-white/70">{info.label}</p>
                   {info.href ? (
-                    <a href={info.href} class="text-xl font-semibold text-white hover:text-secondary transition">
+                    <a href={info.href} class="text-lg font-semibold text-white hover:text-secondary transition">
                       {info.value}
                     </a>
                   ) : (
-                    <p class="text-xl font-semibold text-white">{info.value}</p>
+                    <p class="text-lg font-semibold text-white">{info.value}</p>
                   )}
                 </div>
               </li>
@@ -76,7 +76,6 @@ const iconPaths: Record<string, string> = {
           <div class="space-y-3">
             <p class="text-sm uppercase tracking-[0.35em] text-white/70">Horario</p>
             <p class="text-lg font-semibold text-white">Lunes a Viernes · 09:00 a 18:30</p>
-            <p class="text-white/70">Respuesta en menos de 24 horas hábiles.</p>
           </div>
         </div>
       </aside>

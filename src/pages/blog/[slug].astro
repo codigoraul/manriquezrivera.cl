@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PageHero from "../../components/PageHero.astro";
 import Footer from "../../components/Footer.astro";
+import DynamicSEO from '../../components/SEO/DynamicSEO.astro';
 import { getAllPosts, getPostBySlug, getPostFeaturedImage, getPrimaryCategory } from "../../lib/wordpress";
 
 export async function getStaticPaths() {
@@ -33,6 +34,9 @@ const breadcrumbs = [
 ---
 
 <BaseLayout title={`${title} · Blog Manríquez Rivera`}>
+  <fragment slot="head">
+    <DynamicSEO post={post} />
+  </fragment>
   <PageHero
     title={title}
     breadcrumbs={breadcrumbs}
