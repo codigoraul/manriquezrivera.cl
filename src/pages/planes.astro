@@ -14,12 +14,232 @@ import Footer from "../components/Footer.astro";
     backgroundImage="/images/bg-title.jpg"
   />
 
-  <section class="bg-white py-12 px-6 border-b border-gray-100">
-    <div class="max-w-container mx-auto text-center space-y-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-primary">Planes Empresas</h2>
-      <p class="text-gray-600 max-w-3xl mx-auto">
-        Contamos con diversos planes adaptados a las necesidades y tamaño de su empresa.
-      </p>
+  <section class="bg-white py-16 px-6">
+    <div class="max-w-container mx-auto">
+      <div class="text-center space-y-6 mb-16">
+        <h2 class="text-2xl md:text-3xl font-bold text-primary leading-tight">
+          Protegemos el crecimiento de tu empresa con respaldo legal sólido y permanente.
+        </h2>
+        <p class="text-lg text-gray-700 max-w-4xl mx-auto">
+          En Manriquez Rivera, entendemos que cada negocio es único. Por eso, ofrecemos modalidades de trabajo flexibles que se adaptan al tamaño y ritmo de tu operación.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-20">
+        <div class="bg-gray-50 rounded-lg p-8 border border-gray-200">
+          <h3 class="text-2xl font-bold text-primary mb-4">Asesoría por Requerimiento</h3>
+          <p class="text-gray-700 leading-relaxed">
+            Ideal para gestiones puntuales, defensas específicas o trámites únicos. Pagas solo por lo que necesitas, cuando lo necesitas, con la garantía de excelencia de nuestro estudio.
+          </p>
+        </div>
+
+        <div class="bg-primary/5 rounded-lg p-8 border border-primary/20">
+          <h3 class="text-2xl font-bold text-primary mb-4">Planes de Abordaje Mensual</h3>
+          <p class="text-gray-700 leading-relaxed">
+            La opción más estratégica. Funciona como tu propio departamento legal externo, enfocado en la prevención de riesgos y la respuesta inmediata ante contingencias.
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-12">
+        <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
+          <div class="bg-gradient-to-r from-primary to-primary/80 p-8">
+            <h3 class="text-3xl font-bold mb-2 text-secondary">Plan Básico</h3>
+            <p class="text-xl text-white">Protección y Respaldo Esencial</p>
+            <p class="mt-4 text-white/90">
+              Ideal para quienes buscan una cobertura preventiva y asistencia profesional constante en los asuntos legales del día a día.
+            </p>
+          </div>
+
+          <div class="p-8 space-y-6">
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Asesoría Permanente
+              </h4>
+              <p class="text-gray-700 ml-8">Consultas legales ilimitadas a través de cualquier medio.</p>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Gestión Documental y Contratos
+              </h4>
+              <ul class="ml-8 space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Redacción y revisión de contratos civiles y comerciales (1 mensual).</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Gestión de documentación laboral y contratos de trabajo (hasta 2 mensuales).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Defensa Judicial y Administrativa
+              </h4>
+              <ul class="ml-8 space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Representación en causas civiles, comerciales y laborales (frecuencia anual definida).</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Gestión de desvinculaciones laborales y representación ante instancias administrativas.</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Contestación de reclamos ante el SERNAC.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Derecho Corporativo
+              </h4>
+              <ul class="ml-8 space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Constitución, modificación y disolución de sociedades (hasta 2 eventos anuales).</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Registro de marca (1 anual).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-primary/5 rounded-lg p-6 border-l-4 border-primary">
+              <h4 class="text-xl font-bold text-primary mb-3">Beneficios Exclusivos</h4>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Tarifas preferenciales por éxito en juicios.</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>30% de descuento en servicios adicionales y representación en materia penal.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-lg border-2 border-primary overflow-hidden">
+          <div class="bg-gradient-to-r from-primary via-primary/90 to-primary/80 p-8">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="text-3xl font-bold text-secondary">Plan Integral</h3>
+              <span class="bg-white text-primary px-4 py-2 rounded-full text-sm font-bold">RECOMENDADO</span>
+            </div>
+            <p class="text-xl text-white">Cobertura Total y Alta Disponibilidad</p>
+            <p class="mt-4 text-white/90">
+              Diseñado para empresas o particulares con un flujo constante de operaciones que requieren una gestión legal proactiva y una defensa judicial robusta.
+            </p>
+          </div>
+
+          <div class="p-8 space-y-6">
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+                Asesoría Prioritaria
+              </h4>
+              <p class="text-gray-700 ml-8">Consultas legales ilimitadas con respuesta inmediata.</p>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Gestión Documental Extendida
+              </h4>
+              <p class="text-gray-700 ml-8">Mayor capacidad en redacción y revisión de contratos civiles, comerciales y laborales (hasta 3 mensuales).</p>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Defensa Judicial Preferencial
+              </h4>
+              <ul class="ml-8 space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Ampliación en la frecuencia de representaciones judiciales anuales.</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Comisiones de éxito reducidas en juicios civiles, comerciales y laborales (honorarios variables preferenciales).</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="text-xl font-bold text-primary mb-3 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Gestión Corporativa y Administrativa de Alto Flujo
+              </h4>
+              <ul class="ml-8 space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Gestión de sociedades (hasta 4 eventos anuales).</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Mayor volumen de gestión en reclamos SERNAC y desvinculaciones laborales.</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Redacción de informes en derecho y actos extrajudiciales para la resolución de controversias.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="bg-primary/10 rounded-lg p-6 border-l-4 border-primary">
+              <h4 class="text-xl font-bold text-primary mb-3">Máximos Beneficios</h4>
+              <ul class="space-y-2 text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>50% de descuento en servicios adicionales y defensa penal.</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-primary mr-2">•</span>
+                  <span>Registro de marca incluido.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-16 text-center bg-primary/5 rounded-lg p-8 border border-primary/20">
+        <h3 class="text-2xl font-bold text-primary mb-4">¿Necesitas más información?</h3>
+        <p class="text-gray-700 mb-6 max-w-2xl mx-auto">
+          Contáctanos para conocer en detalle cada plan y encontrar la solución que mejor se adapte a tus necesidades.
+        </p>
+        <a href="/contacto" class="inline-block bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors">
+          Contactar Ahora
+        </a>
+      </div>
     </div>
   </section>
 
