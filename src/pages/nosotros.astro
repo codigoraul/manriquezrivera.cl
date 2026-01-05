@@ -3,9 +3,6 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHero from "../components/PageHero.astro";
 import Footer from "../components/Footer.astro";
 
-const baseUrl = import.meta.env.BASE_URL || '';
-const withBase = (path: string) => `${baseUrl}${path}`;
-
 const teamMembers = [
   {
     name: "Daniel Manríquez Sansigolo",
@@ -18,8 +15,8 @@ const teamMembers = [
       "Diplomado en Gestión Legal y Responsabilidad de la Empresa, Universidad Central (2025)",
       "Magíster en Derecho Corporativo, Universidad Central (2024 - en curso)"
     ],
-    colorSrc: withBase("/images/equipo/Daniel.jpg"),
-    bwSrc: withBase("/images/equipo/Daniel-2.jpg")
+    colorSrc: "/images/equipo/Daniel.jpg",
+    bwSrc: "/images/equipo/Daniel-2.jpg"
   },
   {
     name: "Pablo Rivera Neira",
@@ -30,8 +27,8 @@ const teamMembers = [
       "Diplomado en Derecho del Trabajo, Instituto de Estudios Judiciales (2024)",
       "Diplomado en Litigación Laboral Avanzado, Academia Nacional de Litigación (2025)"
     ],
-    colorSrc: withBase("/images/equipo/Pablo.jpg"),
-    bwSrc: withBase("/images/equipo/Pablo-2.jpg")
+    colorSrc: "/images/equipo/Pablo.jpg",
+    bwSrc: "/images/equipo/Pablo-2.jpg"
   },
   {
     name: "Matías Oliva Espinoza",
@@ -40,15 +37,15 @@ const teamMembers = [
       "Abogado, Universidad Central (2024)",
       "Diplomado en Derecho del Trabajo, Instituto de Estudios Judiciales (2025)"
     ],
-    colorSrc: withBase("/images/equipo/Mati.jpg"),
-    bwSrc: withBase("/images/equipo/Mati-2.jpg")
+    colorSrc: "/images/equipo/Mati.jpg",
+    bwSrc: "/images/equipo/Mati-2.jpg"
   },
   {
     name: "Romina Rebolledo Asencio",
     role: "Procuradora",
     bio: "Egresada de Derecho, Universidad Alberto Hurtado.",
-    colorSrc: withBase("/images/equipo/Romina.jpg"),
-    bwSrc: withBase("/images/equipo/Romina-2.jpg")
+    colorSrc: "/images/equipo/Romina.jpg",
+    bwSrc: "/images/equipo/Romina-2.jpg"
   }
 ];
 ---
@@ -74,7 +71,7 @@ const teamMembers = [
         <div class="order-2 lg:order-1">
           <div class="relative rounded-2xl overflow-hidden shadow-2xl">
             <img 
-              src={withBase("/images/nosotros-equipo.jpg")} 
+              src="/images/nosotros-equipo.jpg" 
               alt="Equipo Manríquez Rivera"
               class="w-full h-[500px] object-cover"
             />
