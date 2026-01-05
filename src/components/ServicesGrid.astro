@@ -8,7 +8,6 @@ interface Props {
 }
 
 const { tipo, limit, showTitle = true } = Astro.props;
-const BASE_URL = import.meta.env.BASE_URL || '';
 
 // Obtener servicios filtrados por tipo
 const services = await getServicesByType(tipo, limit);
@@ -60,7 +59,7 @@ const titles = {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service) => {
           const featuredImage = getFeaturedImage(service);
-          const serviceUrl = `${BASE_URL}/servicios/${service.slug}`;
+          const serviceUrl = `/servicios/${service.slug}`;
           const excerpt = getExcerptText(service);
           
           return (
@@ -119,7 +118,7 @@ const titles = {
     {limit && services.length >= limit && (
       <div class="text-center mt-12">
         <a 
-          href={`${BASE_URL}/servicios-${tipo}`}
+          href={`/servicios-${tipo}`}
           class="inline-block px-8 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary-light transition-all duration-300 hover:scale-105 shadow-lg"
         >
           Ver todos los servicios {tipo === 'empresas' ? 'para empresas' : 'para personas'}
