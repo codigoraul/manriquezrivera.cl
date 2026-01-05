@@ -5,7 +5,6 @@ import Footer from "../../components/Footer.astro";
 import { getPosts, getPostFeaturedImage, getPrimaryCategory } from "../../lib/wordpress";
 
 const posts = await getPosts(12);
-const BASE_URL = import.meta.env.BASE_URL || '';
 
 const sanitizeExcerpt = (html: string = '') =>
   html
@@ -53,7 +52,7 @@ const getExcerpt = (post: any, maxLength = 200) => {
             const image = getPostFeaturedImage(post);
             const category = getPrimaryCategory(post);
             const excerpt = getExcerpt(post);
-            const url = `${BASE_URL}/blog/${post.slug}`;
+            const url = `/blog/${post.slug}`;
 
             return (
               <article class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col hover:shadow-xl transition-shadow duration-300" data-post-card>

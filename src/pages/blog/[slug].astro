@@ -20,7 +20,6 @@ if (!post) {
   throw new Error("Post no encontrado");
 }
 
-const baseUrl = import.meta.env.BASE_URL || '';
 const featuredImage = getPostFeaturedImage(post);
 const category = getPrimaryCategory(post);
 const title = post.title?.rendered || 'Artículo';
@@ -28,7 +27,7 @@ const content = post.content?.rendered || '<p>Contenido no disponible.</p>';
 
 const breadcrumbs = [
   { label: 'Inicio', href: '/' },
-  { label: 'Blog', href: `${baseUrl}/blog` },
+  { label: 'Blog', href: '/blog' },
   { label: title }
 ];
 ---
